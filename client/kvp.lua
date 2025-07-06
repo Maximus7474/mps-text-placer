@@ -1,4 +1,4 @@
-local KVP = {
+KVP = {
     transactions = {},
 }
 KVP.__index = KVP
