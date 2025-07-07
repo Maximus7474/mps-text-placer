@@ -9,7 +9,7 @@ setmetatable(Objects, {
 	end
 })
 
-function Objects.new(id, data)
+function Objects.new(id, data) ---@diagnostic disable-line duplicate-set-field
     local self = {
         id = id,
         text = data.text,
@@ -25,7 +25,7 @@ function Objects.new(id, data)
     return instance
 end
 
-function Objects.remove(id)
+function Objects.remove(id) ---@diagnostic disable-line duplicate-set-field
     Objects[id] = nil
 end
 
