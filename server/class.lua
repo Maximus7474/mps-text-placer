@@ -42,16 +42,11 @@ function Objects.remove(id) ---@diagnostic disable-line duplicate-set-field
 end
 
 ---Cycle through all items and return a list of ids of the text objects
----@param func fun(obj: CL_TextObject): boolean
----@return table
-function Objects.cycle(func) ---@diagnostic disable-line duplicate-set-field
-    local objs = {}
+---@param callFunc fun(obj: SV_TextObject): boolean
+function Objects.cycle(callFunc)
     for _, v in pairs(Objects) do
-        if func(v) then
-            objs[#objs+1] = v
-        end
+        callFunc(v)
     end
-    return objs
 end
 
 function TextObject:save(transactionId)
