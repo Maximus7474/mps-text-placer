@@ -36,3 +36,31 @@ function TextObject:shouldRender(coords)
     local distance = Convar:Get('draw-distance')
     return #(coords - self.coords) <= distance
 end
+
+function TextObject:render(distance)
+    local font = 0
+    local r, g, b, a = 255, 255, 255,255 
+    local scale, minScale = 0.35, 0.1
+    local maxDistance = Convar:Get('draw-distance')
+
+    local onScreen, screenX, screenY = World3dToScreen2d(self.coords.x, self.coords.y, self.coords.z)
+
+    if not onScreen then return end
+
+    local adjustedScale = scale - ((scale - minScale) * (distance / maxDistance))
+    adjustedScale = math.max(minScale, adjustedScale)
+
+    local adjustedAlpha = a * (1 - (distance / maxDistance))
+    adjustedAlpha = math.max(0, math.min(255, adjustedAlpha))
+
+    SetTextFont(font)
+    SetTextScale(1.0, adjustedScale)
+    SetTextColour(r, g, b, adjustedAlpha)
+
+    SetTextOutline()
+    SetTextDropShadow()
+
+    SetTextEntry("STRING")
+    AddTextComponentString(self.text)
+    DrawText(screenX, screenY)
+end
