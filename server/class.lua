@@ -21,12 +21,16 @@ function Objects.new(id, data) ---@diagnostic disable-line duplicate-set-field
 
     local instance = setmetatable(self, TextObject)
 
+    TriggerClientEvent('text-placer:new-text', -1, id, self)
+
     Objects[id] = instance
     return instance
 end
 
 function Objects.remove(id) ---@diagnostic disable-line duplicate-set-field
     Objects[id] = nil
+
+    TriggerClientEvent('text-placer:remove-text', -1, id)
 end
 
 function TextObject:save(transactionId)
