@@ -87,3 +87,11 @@ function TextObject:render()
     AddTextComponentString(self.text)
     DrawText(screenX, screenY)
 end
+
+RegisterNetEvent('text-placer:new-text', function (id, data --[[ @as CL_TextObject ]])
+    Objects.new(id, data)
+end)
+
+RegisterNetEvent('text-placer:remove-text', function (id)
+    Objects.remove(id)
+end)
