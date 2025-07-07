@@ -34,7 +34,7 @@ function Objects.remove(id) ---@diagnostic disable-line duplicate-set-field
 end
 
 function TextObject:save(transactionId)
-    if self.expiry or not transactionId then return end
+    if self.expiry > os.time() or not transactionId then return end
 
     local data = {
         id = self.id,
