@@ -39,7 +39,7 @@ end
 ---Cycle through all items and return a list of ids of the text objects
 ---@param func fun(obj: CL_TextObject): boolean
 ---@return table
-function Objects.cycle(func) ---@diagnostic disable-line duplicate-set-field
+function Objects.filter(func)
     local objs = {}
     for k, v in pairs(Objects) do 
         if func(v) then
