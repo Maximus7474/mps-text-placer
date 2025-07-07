@@ -51,19 +51,18 @@ end
 
 ---Check if the text is close enough to render
 ---@param coords vector3 the players coordinates
+---@param maxDistance number maximum distance to display the text
 ---@return boolean isInRange
-function TextObject:shouldRender(coords)
-    local distance = Convar:Get('draw-distance')
+function TextObject:shouldRender(coords, maxDistance)
     self.distance = #(coords - self.coords)
-    return self.distance <= distance
+    return self.distance <= maxDistance
 end
 
 ---Draws the text object in the game world
-function TextObject:render()
+function TextObject:render(maxDistance)
     local font = 0
     local r, g, b, a = 255, 255, 255,255 
     local scale, minScale = 0.35, 0.1
-    local maxDistance = Convar:Get('draw-distance')
     local distance = self.distance
 
     local onScreen, screenX, screenY = World3dToScreen2d(self.coords.x, self.coords.y, self.coords.z)

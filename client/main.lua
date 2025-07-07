@@ -2,14 +2,15 @@ while not NetworkIsSessionStarted() do
     Wait(500)
 end
 
-local displayableObjects = {}
+local displayableObjects, maxDistance = {}, Convar:Get('draw-distance') --[[ @as number ]]
 
 CreateThread(function ()
     while true do
         local playerPed = PlayerPedId()
-        local coords = GetEntityCoords(playerPed)
+        local coords = GetEntityCoords(playerPed)    
+
         displayableObjects = Objects.cycle(function (obj)
-            return obj:shouldRender(coords)
+            return obj:shouldRender(coords, maxDistance)
         end)
         Wait(1000)
     end
