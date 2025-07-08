@@ -15,7 +15,9 @@ local convars = {
     }, ---@as Convars
 }
 
-Convar = {}
+Convar = {
+    values = {}
+}
 
 ---Get a stored value from the Convar handler
 ---@param key string
