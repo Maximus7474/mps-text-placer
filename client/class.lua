@@ -8,11 +8,13 @@
 local TextObject = {}
 TextObject.__index = TextObject
 
-Objects = {}
+Objects = {
+    items = {}
+}
 
 setmetatable(Objects, {
 	__call = function(self, id)
-		return Objects[id]
+		return Objects.items[id]
 	end
 })
 
@@ -28,12 +30,12 @@ function Objects.new(id, data) ---@diagnostic disable-line duplicate-set-field
 
     local instance = setmetatable(self, TextObject)
 
-    Objects[id] = instance
+    Objects.items[id] = instance
     return instance
 end
 
 function Objects.remove(id) ---@diagnostic disable-line duplicate-set-field
-    Objects[id] = nil
+    Objects.items[id] = nil
 end
 
 ---Cycle through all items and return a list of ids of the text objects
@@ -41,7 +43,7 @@ end
 ---@return table
 function Objects.filter(func)
     local objs = {}
-    for k, v in pairs(Objects) do 
+    for k, v in pairs(Objects.items) do
         if func(v) then
             objs[#objs+1] = v
         end
