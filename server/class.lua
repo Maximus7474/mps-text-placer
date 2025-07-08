@@ -63,3 +63,18 @@ function TextObject:save(transactionId)
 
     KVP:addToTransaction(transactionId, self.id, data)
 end
+
+RegisterCommand('test-text', function (source, args, raw)
+    local text = table.concat(args, " ")
+    local coords = GetEntityCoords(GetPlayerPed(source))
+
+    lib.print.info(string.format('"%s"', text), coords)
+
+    Objects.new('test-1', {
+        text = text,
+        coords = coords,
+        bucket = 0,
+        expiry = false,
+        zone = "unknown",
+    })
+end)
