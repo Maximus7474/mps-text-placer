@@ -51,7 +51,7 @@ local function GetConvarValue(name, type, default)
     elseif type == "integer" then
         value = GetConvarInt(name, default --[[ @as integer ]])
     elseif type == "float" then
-        value = GetConvarInt(name, default --[[ @as number ]])
+        value = GetConvarFloat(name, default --[[ @as number ]])
     elseif type == "boolean" then
         local default = type(default) == "boolean" and default or default == 1
         value = GetConvarBool(name, default)
