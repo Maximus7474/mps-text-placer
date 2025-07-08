@@ -56,16 +56,15 @@ end
 ---@param maxDistance number maximum distance to display the text
 ---@return boolean isInRange
 function TextObject:shouldRender(coords, maxDistance)
-    self.distance = #(coords - self.coords)
-    return self.distance <= maxDistance
+    return #(coords - self.coords) <= maxDistance
 end
 
 ---Draws the text object in the game world
-function TextObject:render(maxDistance)
+function TextObject:render(coords, maxDistance)
     local font = 0
-    local r, g, b, a = 255, 255, 255,255 
+    local r, g, b = 255, 255, 255
     local scale, minScale = 0.35, 0.1
-    local distance = self.distance
+    local distance = #(coords - self.coords)
 
     local onScreen, screenX, screenY = World3dToScreen2d(self.coords.x, self.coords.y, self.coords.z)
 
@@ -74,13 +73,11 @@ function TextObject:render(maxDistance)
     local adjustedScale = scale - ((scale - minScale) * (distance / maxDistance))
     adjustedScale = math.max(minScale, adjustedScale)
 
-    local adjustedAlpha = a * (1 - (distance / maxDistance))
-    adjustedAlpha = math.max(0, math.min(255, adjustedAlpha))
-
     SetTextFont(font)
     SetTextScale(1.0, adjustedScale)
-    SetTextColour(r, g, b, adjustedAlpha)
+    SetTextColour(r, g, b, 255)
 
+    SetTextCentre(true)
     SetTextOutline()
     SetTextDropShadow()
 
