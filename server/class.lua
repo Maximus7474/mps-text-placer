@@ -89,3 +89,33 @@ RegisterCommand('test-text', function (source, args, raw)
         zone = "unknown",
     })
 end)
+
+local limits = { timeout = {}, count = {}, }
+RegisterNetEvent('text-placer:newText', function (coords, text)
+    local src = source
+
+    if not Ace:IsAdmin(src) then
+        local gameTimer = GetGameTimer()
+        if limits.timeout[src] > gameTimer then
+            return
+        else
+            limits.timeout[src] = gameTimer + (1000 * 60 * 5) --[[ = 5 minutes ]]
+        end
+
+        if limits.count[src] > Convar:Get('text-limit') then
+            return
+        else
+            limits.count[src] += 1
+        end
+    end
+
+    local bucket = GetPlayerRoutingBucket(src)
+
+    Objects.new(nil, {
+        text = text,
+        coords = coords,
+        bucket = bucket,
+        expiry = false,
+        zone = "unknown",
+    })
+end)
