@@ -9,15 +9,23 @@
 local TextObject = {}
 TextObject.__index = TextObject
 
-Objects = {}
+Objects = {
+    nextId = 0,
+    items = {},
+}
 
 setmetatable(Objects, {
 	__call = function(self, id)
-		return Objects[id]
+		return Objects.items[id]
 	end
 })
 
 function Objects.new(id, data) ---@diagnostic disable-line duplicate-set-field
+
+    if not id then
+        id = ("3d-text-%d"):format(Objects.nextId)
+    end
+
     local self = {
         id = id,
         text = data.text,
@@ -31,12 +39,15 @@ function Objects.new(id, data) ---@diagnostic disable-line duplicate-set-field
 
     TriggerClientEvent('text-placer:new-text', -1, id, self)
 
-    Objects[id] = instance
+    Objects.items[id] = instance
+
+    Objects.nextId += 1
+
     return instance
 end
 
 function Objects.remove(id) ---@diagnostic disable-line duplicate-set-field
-    Objects[id] = nil
+    Objects.items[id] = nil
 
     TriggerClientEvent('text-placer:remove-text', -1, id)
 end
@@ -44,7 +55,7 @@ end
 ---Cycle through all items and return a list of ids of the text objects
 ---@param callFunc fun(obj: SV_TextObject): boolean
 function Objects.cycle(callFunc)
-    for _, v in pairs(Objects) do
+    for _, v in pairs(Objects.items) do
         callFunc(v)
     end
 end
