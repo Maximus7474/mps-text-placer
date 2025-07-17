@@ -95,6 +95,8 @@ RegisterCommand('place_text', function (_, args, _)
                 print("Saving text: '" .. textToDisplay .. "' at coordinates: " ..
                       string.format("X:%.2f, Y:%.2f, Z:%.2f", textCoords.x, textCoords.y, textCoords.z))
                 terminateThread()
+
+                TriggerServerEvent('text-placer:newText', textCoords, textToDisplay)
             elseif (IsDisabledControlPressed(0, 200)) then
                 -- Scrap data and exit
                 print("Exiting")
