@@ -107,14 +107,6 @@ RegisterCommand('place_text', function (_, args, _)
             end
             Wait(0)
         end
-
-        local timeout = GetGameTimer() + (1000 * 60)
-        while timeout > GetGameTimer() do
-            local coords = GetEntityCoords(playerPed)
-            drawText(textToDisplay, coords, textCoords)
-
-            Wait(0)
-        end
     end)
 end)
 
